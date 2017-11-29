@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
+import './name.less';
 // const Name = React.createClass({
 //   render() {
 //     return (
@@ -11,8 +11,22 @@ import ReactDOM from 'react-dom';
 //   }
 // });
 
-import Name from './name.js';
+import Name from './name.jsx';
 
+// class Name extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {date: new Date()};
+//   }
+
+//   render(){
+//   	  return(
+
+//   	  	   <h1>{this.props.name}</h1>
+//   	  )
+//   }
+
+// }
 
 
      ReactDOM.render(
