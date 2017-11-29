@@ -7,9 +7,14 @@ let extractCSS = new ExtractTextPlugin('[name].css');
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+//const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports={
 	  entry:{
-       index:'./index.js',
+       index:'./src/index.js',
+       detail:'./src/detail.js',
        
 
 	  },
@@ -17,7 +22,7 @@ module.exports={
 	  output:{
            filename:'[name].js',
            path: path.resolve(__dirname, 'build'),
-           publicPath: 'build/'
+           publicPath: './',
 	  },
 
 	  module:{
@@ -32,17 +37,18 @@ module.exports={
             },
             {
 
+            test:/\.css/,
+            exclude:/node_modules/,
+            use:['css-loader','style-loader'],
+            },
+            {
+
             test:/\.less/,
             exclude:/node_modules/,
-            loader:ExtractTextPlugin.extract(['css-loader','less-loader']),
+            loader:ExtractTextPlugin.extract(['css-loader','less-loader','postcss-loader']),
             },
 
-            // {
-            //  	test:/\.vue/,
-            //  	exclude:/node_modules/,
-            //  	loader:'vue-loader',
-            // },
-
+        
              {
            
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -66,10 +72,35 @@ module.exports={
 
 
 	  },
+   
      plugins: [
        extractCSS,
        new UglifyJSPlugin(),
+       new OptimizeCssAssetsPlugin({
+    
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: {removeAll: true } },
+      canPrint: true
+       }),
+       // new HtmlWebpackPlugin(
+       //    {
+       //      hash:true,
+       //      title:'hello world',
+       //      template:'./index.html',
+
+       //    }
+       //  ),
+       // new HtmlWebpackPlugin(
+       //    {
+       //      hash:true,
+       //      title:'hello world',
+       //      template:'./index.html',
+       //      filename:'./detail.html',
+            
+       //    }
+       //  ),
        
-    ]
+    ],
+    
     
 }
