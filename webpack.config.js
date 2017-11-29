@@ -1,5 +1,12 @@
 const path = require('path');
 
+
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+let extractCSS = new ExtractTextPlugin('[name].css');
+
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports={
 	  entry:{
        index:'./index.js',
@@ -22,6 +29,12 @@ module.exports={
             test:/\.js[x]?$/,
             exclude:/node_modules/,
             loader:'babel-loader',
+            },
+            {
+
+            test:/\.less/,
+            exclude:/node_modules/,
+            loader:ExtractTextPlugin.extract(['css-loader','less-loader']),
             },
 
             // {
@@ -53,5 +66,10 @@ module.exports={
 
 
 	  },
+     plugins: [
+       extractCSS,
+       new UglifyJSPlugin(),
+       
+    ]
     
 }
