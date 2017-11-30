@@ -15,7 +15,7 @@ module.exports={
 	  entry:{
        index:'./src/index.js',
        detail:'./src/detail.js',
-       
+        common: [ 'react', 'react-dom'],
 
 	  },
     devtool:'source-map',
@@ -99,6 +99,12 @@ module.exports={
             
        //    }
        //  ),
+       new webpack.optimize.CommonsChunkPlugin({
+            chunks: ['home', 'detail'],
+            // 开发环境下需要使用热更新替换，而此时common用chunkhash会出错，可以直接不用hash
+            // filename: '[name].js' + (isProduction ? '?[chunkhash:8]' : ''),
+            name: 'common'
+        }),
        
     ],
     
